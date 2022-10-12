@@ -4,8 +4,7 @@
 #include <sstream>
 using namespace std;
 
-// Queue is full when size
-// becomes equal to the capacity
+// Queue is full when the size equal to capacity
 bool Queue::isFull(Queue* queue)
 {
 	return (queue->size == queue->capacity);
@@ -18,7 +17,6 @@ bool Queue::isEmpty(Queue* queue)
 }
 
 // Function to add an expression to the queue.
-// It changes rear and size
 void Queue::enqueue(Queue* queue, string expression, float result)
 {
 
@@ -39,7 +37,7 @@ void Queue::enqueue(Queue* queue, string expression, float result)
 		queue->front += 1;
 	}
 
-	queue->rear = (queue->rear + 1) % queue->capacity; // Modulo here is used to limit the shifting of rear from one element to another in the array
+	queue->rear = (queue->rear + 1) % queue->capacity; // limit the shifting of rear from one element to another in the array
 	queue->array[queue->rear] = expression; // Store the string expression into the array
 	queue->size = queue->size + 1; // Increase the size as the expression is added
 }
@@ -48,7 +46,7 @@ void Queue::enqueue(Queue* queue, string expression, float result)
 void Queue::dequeue_At(Queue* queue, int pos)
 {
 	if (isEmpty(queue)) {
-		cout << "Error! Empty History" << endl << endl;
+		cout << "Error!! History not detected" << endl << endl;
 		return;
 	}
 
@@ -57,11 +55,12 @@ void Queue::dequeue_At(Queue* queue, int pos)
 		return;
 	}
 
-	for(int i = pos-1; i < (queue->size-1); i++) { // Loop from the deleted element to shift all the following elements on the right where the element being deleted is located to the left so no gap is present
+	for(int i = pos-1; i < (queue->size-1); i++) //This loop serves to shift all the deleted element to the left
+	{ 
     	queue->array[i] = queue->array[i+1];
 	}
-	queue->rear = (queue->rear - 1) % queue->capacity; // Decrease rear by one because an element is deleted
-	queue->size = queue->size - 1; // Decrease size by one too
+	queue->rear = (queue->rear - 1) % queue->capacity; // Decrease rear by one as the element deted
+	queue->size = queue->size - 1; 
 
     if(queue->front == queue->rear) { // If front and rear is pointng at the same array element, assign -1 to both
 		queue->front = -1;
@@ -96,7 +95,7 @@ void Queue::dequeue_All(Queue* queue) {
 
 void Queue::showHistory(Queue* queue) {
 
-	cout << "|-------------------CALCULATOR HISTORY-------------------|\n" << endl;
+	cout << "|************* History of Calculator *************|\n" << endl;
 
 	// Check if the array is empty
 	if(isEmpty(queue)) {
@@ -106,6 +105,6 @@ void Queue::showHistory(Queue* queue) {
 			cout << i + 1 << ". " << queue->array[i] << "\n" << endl;
 		}
 	}
-	cout << "|---------------------------END--------------------------|\n" << endl;
+	cout << "|**************** END **************** |\n" << endl;
 	return;
 }
